@@ -76,6 +76,12 @@ To add, modify, or remove variables from the Blackboard Plan, follow these steps
 5. The hint provides additional information about the variable to the Inspector, such as minimum and maximum values for an integer variable. Learn more about `property hints in the official Godot documentation <https://docs.godotengine.org/en/stable/classes/class_%40globalscope.html#enum-globalscope-propertyhint>`_.
 6. You can specify the default values of the variables directly in the Inspector.
 
+.. note::
+   The :ref:`BlackboardPlan<class_BlackboardPlan>` acts as a context domain for a given set of variables. Recursive requests upwards will stop at the first :ref:`BlackboardPlan<class_BlackboardPlan>` found that includes that variable, and setting variables on blackboards higher in the tree will be masked by a Blackboard Plan lower in the tree.
+
+   Set variables on the same node that the Blackboard Plan is set on.
+
+
 Overriding variables in BTPlayer
 --------------------------------
 

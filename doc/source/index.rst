@@ -36,8 +36,14 @@ one big state machine into multiple smaller ones.
    behavior-trees/introduction
    behavior-trees/create-tree
    behavior-trees/custom-tasks
-   behavior-trees/using-blackboard
    behavior-trees/accessing-nodes
+
+.. toctree::
+   :hidden:
+   :maxdepth: 1
+   :caption: Blackboard
+
+   blackboard/using-blackboard
 
 .. toctree::
    :hidden:
