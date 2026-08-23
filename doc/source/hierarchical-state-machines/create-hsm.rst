@@ -22,7 +22,7 @@ Suppose you have two states, an ``Idle`` and a ``Move`` state.  You could create
 
    An example scene graph with a HSM and several states
 
-Then, in the you would need to initialize it in your code. This is typically done in the ``_ready`` function of your script.
+Then, in a script attached to a parent node (as in the example below) or directly attached to the ``LimboHSM`` node, initialize the state machine. This is typically done in the ``_ready`` function of your script.
 
 .. code:: gdscript
 
