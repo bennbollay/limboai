@@ -127,6 +127,8 @@ If the event handler returns ``true``, the event will be considered as consumed,
 and it won't propagate further or result in a state transition.
 
 
+.. note:: Dispatching the root :ref:`LimboHSM<class_LimboHSM>`.:ref:`EVENT_FINISHED<class_LimboState_property_EVENT_FINISHED>` event will trigger the HSM to invoke :ref:`LimboHSM._exit()<class_LimboHSM_private_method__exit>`. This behavior allows for transitions to idle for the root, which can't be specified via :ref:`add_transition<class_LimboHSM_method_add_transition>`.
+
 State anatomy
 -------------
 

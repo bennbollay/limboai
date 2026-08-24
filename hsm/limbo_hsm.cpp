@@ -31,32 +31,39 @@ void LimboHSM::set_active(bool p_active) {
 		return;
 	}
 
-	active = p_active;
-	is_initiating_update = p_active;
+	if (p_active) {
+		active = p_active;
+		is_initiating_update = p_active;
 
-	if (active) {
 		_enter();
 	} else {
 		_exit();
+
+		active = p_active;
+		is_initiating_update = p_active;
 	}
 }
 
 void LimboHSM::change_active_state(LimboState *p_state) {
-	ERR_FAIL_NULL(p_state);
 	ERR_FAIL_COND_MSG(!is_active(), "LimboHSM: Unable to change active state when HSM is not active.");
-	ERR_FAIL_COND_MSG(p_state->get_parent() != this, "LimboHSM: Unable to perform transition to a state that is not a child of this HSM.");
+	ERR_FAIL_COND_MSG(p_state && p_state->get_parent() != this, "LimboHSM: Unable to perform transition to a state that is not a child of this HSM.");
 
 	if (active_state) {
 		active_state->_exit();
-		previous_active = active_state;
 	}
 
+	previous_active = active_state;
 	active_state = p_state;
-	active_state->_enter();
+
+	if (active_state) {
+		active_state->_enter();
+	}
 
 	emit_signal(LW_NAME(active_state_changed), active_state, previous_active);
 
-	active_state->_clear_cargo();
+	if (active_state) {
+		active_state->_clear_cargo();
+	}
 }
 
 void LimboHSM::_enter() {
@@ -70,8 +77,7 @@ void LimboHSM::_enter() {
 
 void LimboHSM::_exit() {
 	ERR_FAIL_COND(active_state == nullptr);
-	active_state->_exit();
-	active_state = nullptr;
+	change_active_state(nullptr);
 	LimboState::_exit();
 }
 
@@ -216,6 +222,8 @@ bool LimboHSM::_dispatch(const StringName &p_event, const Variant &p_cargo) {
 		}
 	}
 
+	// It's not possible to add a transition to inactive for the root node, so treat EVENT_FINISHED
+	// as that transition trigger.
 	if (!event_consumed && p_event == EVENT_FINISHED && !(get_parent() && get_parent()->is_class("LimboState"))) {
 		_exit();
 	}
