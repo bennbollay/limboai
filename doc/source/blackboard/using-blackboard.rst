@@ -196,6 +196,27 @@ Scopes are created automatically to prevent naming collisions between contextual
 - Under :ref:`LimboHSM<class_LimboHSM>` nodes: A new scope is created at the root level,
   and each :ref:`BTState<class_BTState>` child also receives its own separate scope.
 
+Blackboard Plans in a Tree
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The intersection between a :ref:`BlackboardPlan<class_BlackboardPlan>` and the recursive search of :ref:`blackboard.get_var()<class_Blackboard_method_get_var>` can best be illustrated through several examples.  Each :ref:`BlackboardPlan<class_BlackboardPlan>` creates a new "scope" for the variables specified within it, including their default value, and ``Blackboard.get_var()`` will stop traversing upwards through a tree when it finds a matching variable with it's value set either by a :ref:`BlackboardPlan<class_BlackboardPlan>` or via :ref:`blackboard.set_var()<class_Blackboard_method_set_var>`.
+
+If a tree with a parent :ref:`LimboHSM<class_LimboHSM>` and a child :ref:`LimboHSM<class_LimboHSM>` is created and both contain a :ref:`BlackboardPlan<class_BlackboardPlan>` with the
+variable ``speed`` set, a :ref:`LimboState<class_LimboState>` under the child :ref:`LimboHSM<class_LimboHSM>` will only look at the blackboard of the child
+:ref:`LimboHSM<class_LimboHSM>`.  Setting the value of ``speed`` in the parent :ref:`LimboHSM<class_LimboHSM>` will have no effect on the value returned in the leaf :ref:`LimboState<class_LimboState>`'s call to :ref:`blackboard.get_var()<class_Blackboard_method_get_var>`.
+
+If there is no :ref:`BlackboardPlan<class_BlackboardPlan>` in the parent :ref:`LimboHSM<class_LimboHSM>`, the behavior
+will be the same: requests to ``blackboard.get_var("speed")`` will be satisfied by the instantiated blackboard, as per
+the plan, in the
+child :ref:`LimboHSM<class_LimboHSM>`.
+
+On the other hand, if the child :ref:`LimboHSM<class_LimboHSM>` does not have a :ref:`BlackboardPlan<class_BlackboardPlan>`, then the request for ``speed`` will not be satisifed in the child's blackboard and will continue upwards to the parent :ref:`LimboHSM<class_LimboHSM>`.
+
+Finally, if, in the ``BlackboardPlan``, a **mapping** is created between the child :ref:`LimboHSM<class_LimboHSM>`'s :ref:`BlackboardPlan<class_BlackboardPlan>` and the parent :ref:`LimboHSM<class_LimboHSM>`'s :ref:`BlackboardPlan<class_BlackboardPlan>`, then
+the call to ``blackboard.get_var("speed")`` will refer to the shared variable between the child and the parent
+:ref:`LimboHSM<class_LimboHSM>` blackboards. Changes to the parent :ref:`LimboHSM<class_LimboHSM>` blackboard via :ref:`blackboard.set_var()<class_Blackboard_method_set_var>` will also
+occur in the child :ref:`LimboHSM<class_LimboHSM>` blackboard.
+
 Sharing data between several agents
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

@@ -10,8 +10,19 @@ This guide will show how to set up and use a state machine using :ref:`LimboHSM<
 Initialization
 --------------
 
-To use the :ref:`LimboHSM<class_LimboHSM>` state machine, you first need to initialize it in your code.
-This is typically done in the ``_ready`` function of your script. Here's an example of how to do this:
+To use the :ref:`LimboHSM<class_LimboHSM>` state machine, you can start by creating a scene including a root
+:ref:`LimboHSM<class_LimboHSM>` node, with additional :ref:`LimboState<class_LimboState>` nodes (or other :ref:`LimboHSM<class_LimboHSM>` nodes!) underneath it.
+
+Suppose you have two states, an ``Idle`` and a ``Move`` state.  You could create your scene like this:
+
+.. figure:: ../../images/hsm-example-scene.png
+   :alt: Screenshot of example tree with a root Node2D, a child LimboHSM, and several further descendent LimboState nodes.
+   :align: center
+   :width: 500
+
+   An example scene graph with a HSM and several states
+
+Then, in a script attached to a parent node (as in the example below) or directly attached to the ``LimboHSM`` node, initialize the state machine. This is typically done in the ``_ready`` function of your script.
 
 .. code:: gdscript
 
@@ -31,9 +42,10 @@ This is typically done in the ``_ready`` function of your script. Here's an exam
         hsm.initialize(self)
         hsm.set_active(true)
 
-In this example, we first declare the state machine and the states we want to use.
+In this example, we first declare the state machine and the states we want to use from the scene.
 Then, in the ``_init_state_machine`` function, we add transitions between the states.
-Finally, we initialize the state machine and set it to active.
+Finally, we initialize the state machine and set it to active. Initializing the state machine via
+:ref:`LimboHSM.initialize<class_LimboHSM_method_initialize>` calls :ref:`LimboState._setup<class_LimboState_method__setup>` for itself and all substates.
 
 
 State example

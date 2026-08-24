@@ -192,3 +192,4 @@ compile_commands.json
 
 # clang cache
 .cache
+_build
