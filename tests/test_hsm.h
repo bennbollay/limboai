@@ -507,7 +507,7 @@ TEST_CASE("[Modules][LimboAI] HSM") {
 		local_hsm->set_active(true);
 
 		REQUIRE(local_hsm->get_active_state() == local_state);
-		Array states = { { local_state , ObjectNull } };
+		Array states = { { local_state, ObjectNull } };
 		SIGNAL_CHECK("active_state_changed", states)
 	}
 
@@ -529,7 +529,7 @@ TEST_CASE("[Modules][LimboAI] HSM") {
 
 		hsm->set_active(false);
 		Array states = {
-			{ ObjectNull, state_gamma },// Transition of nested_hsm to inactive
+			{ ObjectNull, state_gamma }, // Transition of nested_hsm to inactive
 			{ ObjectNull, nested_hsm }, // Transition of hsm to inactive
 		};
 		SIGNAL_CHECK("active_state_changed", states);
@@ -550,9 +550,9 @@ TEST_CASE("[Modules][LimboAI] HSM") {
 
 		hsm->dispatch("goto_nested_2");
 		Array states = {
-			{ ObjectNull, state_gamma },   // nested_hsm going inactive
+			{ ObjectNull, state_gamma }, // nested_hsm going inactive
 			{ state_epsilon, ObjectNull }, // nested_hsm_2 going active
-			{ nested_hsm_2, nested_hsm }   // hsm
+			{ nested_hsm_2, nested_hsm } // hsm
 		};
 		SIGNAL_CHECK("active_state_changed", states)
 	}
