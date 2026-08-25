@@ -572,6 +572,66 @@ TEST_CASE("[Modules][LimboAI] HSM") {
 		SIGNAL_CHECK_FALSE("active_state_changed")
 	}
 
+	SUBCASE("Test previous active state is null on initialization") {
+		CHECK(hsm->get_previous_active_state() == nullptr);
+		CHECK(hsm->get_active_state() == state_alpha);
+	}
+
+	SUBCASE("Test previous_active_state updates on transition to sibling state") {
+		hsm->dispatch("event_one");
+		CHECK(hsm->get_previous_active_state() == state_alpha);
+		CHECK(hsm->get_active_state() == state_beta);
+		Array states = {
+			{ state_beta, state_alpha },
+		};
+		SIGNAL_CHECK("active_state_changed", states)
+	}
+
+	SUBCASE("Test previous_active_state updates on transition to sibling HSM") {
+		hsm->dispatch("goto_nested");
+		CHECK(hsm->get_previous_active_state() == state_alpha);
+		CHECK(hsm->get_active_state() == nested_hsm);
+		CHECK(nested_hsm->get_previous_active_state() == nullptr);
+		CHECK(nested_hsm->get_active_state() == state_gamma);
+		Array states = {
+			{ state_gamma, ObjectNull },
+			{ nested_hsm, state_alpha }
+		};
+		SIGNAL_CHECK("active_state_changed", states)
+	}
+
+	SUBCASE("Test previous_active_state updates top level dispatch EVENT_FINISHED") {
+		hsm->dispatch(hsm->event_finished());
+		CHECK(hsm->get_previous_active_state() == state_alpha);
+		CHECK(hsm->get_active_state() == nullptr);
+		Array states = {
+			{ ObjectNull, state_alpha },
+		};
+		SIGNAL_CHECK("active_state_changed", states)
+	}
+
+	SUBCASE("Test previous_active_state updates on set inactive") {
+		hsm->set_active(false);
+		CHECK(hsm->get_previous_active_state() == state_alpha);
+		CHECK(hsm->get_active_state() == nullptr);
+		Array states = {
+			{ ObjectNull, state_alpha },
+		};
+		SIGNAL_CHECK("active_state_changed", states)
+	}
+
+	SUBCASE("Test previous_active_state updates on set active") {
+		hsm->set_active(false);
+		SIGNAL_DISCARD("active_state_changed")
+		hsm->set_active(true);
+		CHECK(hsm->get_previous_active_state() == nullptr);
+		CHECK(hsm->get_active_state() == state_alpha);
+		Array states = {
+			{ state_alpha, ObjectNull },
+		};
+		SIGNAL_CHECK("active_state_changed", states)
+	}
+
 	memdelete(agent);
 }
 
