@@ -141,6 +141,7 @@ TEST_CASE("[Modules][LimboAI] HSM") {
 	nested_hsm->add_child(state_delta);
 	nested_hsm_2->add_child(state_epsilon);
 
+	hsm->add_transition(state_alpha, state_alpha, "reenter_alpha");
 	hsm->add_transition(state_alpha, state_beta, "event_one");
 	hsm->add_transition(state_beta, state_alpha, "event_two");
 	hsm->add_transition(hsm->anystate(), nested_hsm, "goto_nested");
@@ -508,13 +509,13 @@ TEST_CASE("[Modules][LimboAI] HSM") {
 
 		REQUIRE(local_hsm->get_active_state() == local_state);
 		Array states = { { local_state, ObjectNull } };
-		SIGNAL_CHECK("active_state_changed", states)
+		SIGNAL_CHECK("active_state_changed", states);
 	}
 
 	SUBCASE("Test active_state_changed emitted on transition") {
 		hsm->dispatch("event_one");
 		Array states = { { state_beta, state_alpha } };
-		SIGNAL_CHECK("active_state_changed", states)
+		SIGNAL_CHECK("active_state_changed", states);
 	}
 
 	SUBCASE("Test active_state_changed emitted on set_active(false)") {
@@ -525,7 +526,7 @@ TEST_CASE("[Modules][LimboAI] HSM") {
 
 	SUBCASE("Test active_state_changed emitted recursively on set_active(false)") {
 		hsm->dispatch("goto_nested");
-		SIGNAL_DISCARD("active_state_changed")
+		SIGNAL_DISCARD("active_state_changed");
 
 		hsm->set_active(false);
 		Array states = {
@@ -541,12 +542,12 @@ TEST_CASE("[Modules][LimboAI] HSM") {
 			{ state_gamma, ObjectNull }, // Transition of nested_hsm to gamma
 			{ nested_hsm, state_alpha }, // Transition of hsm to nested_hsm
 		};
-		SIGNAL_CHECK("active_state_changed", states)
+		SIGNAL_CHECK("active_state_changed", states);
 	}
 
 	SUBCASE("Test active_state_changed emitted switching to a different nested HSM") {
 		hsm->dispatch("goto_nested");
-		SIGNAL_DISCARD("active_state_changed")
+		SIGNAL_DISCARD("active_state_changed");
 
 		hsm->dispatch("goto_nested_2");
 		Array states = {
@@ -554,7 +555,7 @@ TEST_CASE("[Modules][LimboAI] HSM") {
 			{ state_epsilon, ObjectNull }, // nested_hsm_2 going active
 			{ nested_hsm_2, nested_hsm } // hsm
 		};
-		SIGNAL_CHECK("active_state_changed", states)
+		SIGNAL_CHECK("active_state_changed", states);
 	}
 
 	SUBCASE("Test active_state_changed emitted resetting the same active state") {
@@ -563,13 +564,50 @@ TEST_CASE("[Modules][LimboAI] HSM") {
 		Array states = {
 			{ state_alpha, state_alpha }
 		};
-		SIGNAL_CHECK("active_state_changed", states)
+		SIGNAL_CHECK("active_state_changed", states);
 	}
 
 	SUBCASE("Test active_state_changed not emitted on unhandled dispatch") {
 		hsm->dispatch("unsatisfiable");
 
-		SIGNAL_CHECK_FALSE("active_state_changed")
+		SIGNAL_CHECK_FALSE("active_state_changed");
+	}
+
+	SUBCASE("Test change_active_state to null") {
+		hsm->change_active_state(nullptr);
+		Array states = {
+			{ ObjectNull, state_alpha }
+		};
+		SIGNAL_CHECK("active_state_changed", states);
+		CHECK(hsm->get_previous_active_state() == state_alpha);
+		CHECK(hsm->get_active_state() == nullptr);
+		CHECK(alpha_exits->num_callbacks == 1);
+
+		CHECK(!hsm->is_active());
+
+		CHECK(alpha_entries->num_callbacks == 1);
+		hsm->update(0.01666);
+		CHECK(alpha_entries->num_callbacks == 1);
+	}
+
+	SUBCASE("Test change_active_state to current active state") {
+		hsm->change_active_state(state_alpha);
+		Array states = {
+			{ state_alpha, state_alpha }
+		};
+		SIGNAL_CHECK("active_state_changed", states);
+		CHECK(hsm->get_previous_active_state() == state_alpha);
+		CHECK(hsm->get_active_state() == state_alpha);
+	}
+
+	SUBCASE("Test dispatch transition to current active state") {
+		hsm->dispatch("reenter_alpha");
+		Array states = {
+			{ state_alpha, state_alpha }
+		};
+		SIGNAL_CHECK("active_state_changed", states);
+		CHECK(hsm->get_previous_active_state() == state_alpha);
+		CHECK(hsm->get_active_state() == state_alpha);
 	}
 
 	SUBCASE("Test previous active state is null on initialization") {
@@ -584,7 +622,7 @@ TEST_CASE("[Modules][LimboAI] HSM") {
 		Array states = {
 			{ state_beta, state_alpha },
 		};
-		SIGNAL_CHECK("active_state_changed", states)
+		SIGNAL_CHECK("active_state_changed", states);
 	}
 
 	SUBCASE("Test previous_active_state updates on transition to sibling HSM") {
@@ -597,7 +635,7 @@ TEST_CASE("[Modules][LimboAI] HSM") {
 			{ state_gamma, ObjectNull },
 			{ nested_hsm, state_alpha }
 		};
-		SIGNAL_CHECK("active_state_changed", states)
+		SIGNAL_CHECK("active_state_changed", states);
 	}
 
 	SUBCASE("Test previous_active_state updates top level dispatch EVENT_FINISHED") {
@@ -607,7 +645,7 @@ TEST_CASE("[Modules][LimboAI] HSM") {
 		Array states = {
 			{ ObjectNull, state_alpha },
 		};
-		SIGNAL_CHECK("active_state_changed", states)
+		SIGNAL_CHECK("active_state_changed", states);
 	}
 
 	SUBCASE("Test previous_active_state updates on set inactive") {
@@ -617,19 +655,19 @@ TEST_CASE("[Modules][LimboAI] HSM") {
 		Array states = {
 			{ ObjectNull, state_alpha },
 		};
-		SIGNAL_CHECK("active_state_changed", states)
+		SIGNAL_CHECK("active_state_changed", states);
 	}
 
 	SUBCASE("Test previous_active_state updates on set active") {
 		hsm->set_active(false);
-		SIGNAL_DISCARD("active_state_changed")
+		SIGNAL_DISCARD("active_state_changed");
 		hsm->set_active(true);
 		CHECK(hsm->get_previous_active_state() == nullptr);
 		CHECK(hsm->get_active_state() == state_alpha);
 		Array states = {
 			{ state_alpha, ObjectNull },
 		};
-		SIGNAL_CHECK("active_state_changed", states)
+		SIGNAL_CHECK("active_state_changed", states);
 	}
 
 	memdelete(agent);
