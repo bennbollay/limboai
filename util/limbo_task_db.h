@@ -65,20 +65,20 @@ public:
 };
 
 #ifdef LIMBOAI_MODULE
-#define LIMBO_REGISTER_TASK(m_class)              \
+#define LIMBO_REGISTER_TASK(m_class) \
 	if constexpr (GD_IS_CLASS_ENABLED(m_class)) { \
-		::LimboTaskDB::register_task<m_class>();  \
+		::LimboTaskDB::register_task<m_class>(); \
 	}
 #elif LIMBOAI_GDEXTENSION
 #define LIMBO_REGISTER_TASK(m_class) LimboTaskDB::register_task<m_class>();
 #endif
 
-#define TASK_CATEGORY(m_cat)                           \
-public:                                                \
+#define TASK_CATEGORY(m_cat) \
+public: \
 	static _FORCE_INLINE_ String get_task_category() { \
-		return String(#m_cat);                         \
-	}                                                  \
-                                                       \
+		return String(#m_cat); \
+	} \
+\
 private:
 
 #endif // LIMBO_TASK_DB_H

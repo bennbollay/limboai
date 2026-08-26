@@ -13,23 +13,24 @@
 
 #include "limbo_test.h"
 
+#include "tests/test_macros.h"
+
 #include "modules/limboai/blackboard/bb_param/bb_param.h"
 #include "modules/limboai/bt/tasks/blackboard/bt_check_var.h"
 #include "modules/limboai/bt/tasks/bt_task.h"
 #include "modules/limboai/util/limbo_utility.h"
-#include "tests/test_macros.h"
 
 namespace TestCheckVar {
 
 // Compare m_correct, m_incorrect and m_invalid to m_value based using m_check_type.
 #define TC_CHECK_VALUES(m_task, m_correct, m_incorrect, m_invalid, m_check_type, m_value) \
-	m_task->get_value()->set_saved_value(m_value);                                        \
-	m_task->set_check_type(m_check_type);                                                 \
-	m_task->get_blackboard()->set_var("var", m_correct);                                  \
-	CHECK(m_task->execute(0.01666) == BTTask::SUCCESS);                                   \
-	m_task->get_blackboard()->set_var("var", m_incorrect);                                \
-	CHECK(m_task->execute(0.01666) == BTTask::FAILURE);                                   \
-	m_task->get_blackboard()->set_var("var", m_invalid);                                  \
+	m_task->get_value()->set_saved_value(m_value); \
+	m_task->set_check_type(m_check_type); \
+	m_task->get_blackboard()->set_var("var", m_correct); \
+	CHECK(m_task->execute(0.01666) == BTTask::SUCCESS); \
+	m_task->get_blackboard()->set_var("var", m_incorrect); \
+	CHECK(m_task->execute(0.01666) == BTTask::FAILURE); \
+	m_task->get_blackboard()->set_var("var", m_invalid); \
 	CHECK(m_task->execute(0.01666) == BTTask::FAILURE);
 
 TEST_CASE("[Modules][LimboAI] BTCheckVar") {

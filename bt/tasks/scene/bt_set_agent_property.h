@@ -12,10 +12,9 @@
 #ifndef BT_SET_AGENT_PROPERTY_H
 #define BT_SET_AGENT_PROPERTY_H
 
-#include "../bt_action.h"
-
 #include "../../../blackboard/bb_param/bb_variant.h"
 #include "../../../util/limbo_utility.h"
+#include "../bt_action.h"
 
 class BTSetAgentProperty : public BTAction {
 	GDCLASS(BTSetAgentProperty, BTAction);

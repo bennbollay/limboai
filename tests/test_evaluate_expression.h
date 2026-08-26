@@ -14,13 +14,13 @@
 
 #include "limbo_test.h"
 
+#include "core/os/memory.h"
+#include "core/variant/array.h"
+
 #include "modules/limboai/blackboard/bb_param/bb_node.h"
 #include "modules/limboai/blackboard/blackboard.h"
 #include "modules/limboai/bt/tasks/bt_task.h"
 #include "modules/limboai/bt/tasks/utility/bt_evaluate_expression.h"
-
-#include "core/os/memory.h"
-#include "core/variant/array.h"
 
 namespace TestEvaluateExpression {
 

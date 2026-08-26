@@ -14,15 +14,15 @@
 
 #include "limbo_test.h"
 
-#include "modules/limboai/blackboard/blackboard.h"
-#include "modules/limboai/bt/tasks/bt_task.h"
-#include "modules/limboai/bt/tasks/scene/bt_await_animation.h"
-
 #include "core/os/memory.h"
 #include "scene/animation/animation_player.h"
 #include "scene/main/window.h"
 #include "scene/resources/animation.h"
 #include "scene/resources/animation_library.h"
+
+#include "modules/limboai/blackboard/blackboard.h"
+#include "modules/limboai/bt/tasks/bt_task.h"
+#include "modules/limboai/bt/tasks/scene/bt_await_animation.h"
 
 namespace TestAwaitAnimation {
 

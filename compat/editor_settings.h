@@ -34,12 +34,12 @@ using namespace godot;
 #define EDITOR_GET(m_var) _EDITOR_GET(m_var)
 Variant _EDITOR_GET(const String &p_setting);
 
-#define EDITOR_DEF(m_setting, m_value)                                                                         \
-	do { /* do-while(0) ideom to avoid any potential semicolon errors. */                                      \
+#define EDITOR_DEF(m_setting, m_value) \
+	do { /* do-while(0) ideom to avoid any potential semicolon errors. */ \
 		EditorInterface::get_singleton()->get_editor_settings()->set_initial_value(m_setting, m_value, false); \
-		if (!EDITOR_SETTINGS()->has_setting(m_setting)) {                                                      \
-			EDITOR_SETTINGS()->set_setting(m_setting, m_value);                                                \
-		}                                                                                                      \
+		if (!EDITOR_SETTINGS()->has_setting(m_setting)) { \
+			EDITOR_SETTINGS()->set_setting(m_setting, m_value); \
+		} \
 	} while (0)
 
 #endif // LIMBOAI_GDEXTENSION

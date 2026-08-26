@@ -12,9 +12,8 @@
 #ifndef BT_NEW_SCOPE_H
 #define BT_NEW_SCOPE_H
 
-#include "../bt_decorator.h"
-
 #include "../../../blackboard/blackboard_plan.h"
+#include "../bt_decorator.h"
 
 class BTNewScope : public BTDecorator {
 	GDCLASS(BTNewScope, BTDecorator);

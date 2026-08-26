@@ -12,10 +12,9 @@
 #ifndef BT_CHECK_AGENT_PROPERTY
 #define BT_CHECK_AGENT_PROPERTY
 
-#include "../bt_condition.h"
-
 #include "../../../blackboard/bb_param/bb_variant.h"
 #include "../../../util/limbo_utility.h"
+#include "../bt_condition.h"
 
 class BTCheckAgentProperty : public BTCondition {
 	GDCLASS(BTCheckAgentProperty, BTCondition);

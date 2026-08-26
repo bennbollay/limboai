@@ -12,10 +12,9 @@
 #ifndef BT_CALL_METHOD_H
 #define BT_CALL_METHOD_H
 
-#include "../bt_action.h"
-
 #include "../../../blackboard/bb_param/bb_node.h"
 #include "../../../blackboard/bb_param/bb_variant.h"
+#include "../bt_action.h"
 
 class BTCallMethod : public BTAction {
 	GDCLASS(BTCallMethod, BTAction);

@@ -14,10 +14,11 @@
 
 #include "limbo_test.h"
 
+#include "tests/test_macros.h"
+
 #include "modules/limboai/blackboard/blackboard.h"
 #include "modules/limboai/bt/tasks/bt_task.h"
 #include "modules/limboai/bt/tasks/utility/bt_call_method.h"
-#include "tests/test_macros.h"
 
 namespace TestTask {
 

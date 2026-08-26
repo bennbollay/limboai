@@ -25,9 +25,10 @@
 #ifdef LIMBOAI_GDEXTENSION
 #include <godot_cpp/classes/node.hpp>
 #include <godot_cpp/classes/resource.hpp>
-#include <godot_cpp/core/gdvirtual.gen.inc>
 #include <godot_cpp/core/object.hpp>
 #include <godot_cpp/templates/vector.hpp>
+
+#include <godot_cpp/core/gdvirtual.gen.inc>
 using namespace godot;
 #endif // LIMBOAI_GDEXTENSION
 
@@ -146,7 +147,7 @@ public:
 	_FORCE_INLINE_ bool is_root() const { return data.parent == nullptr; }
 	_FORCE_INLINE_ Ref<Blackboard> get_blackboard() const { return data.blackboard; }
 	_FORCE_INLINE_ Status get_status() const { return data.status; }
-	_FORCE_INLINE_ double get_elapsed_time() const { return data.elapsed; };
+	_FORCE_INLINE_ double get_elapsed_time() const { return data.elapsed; }
 
 	_FORCE_INLINE_ Ref<BTTask> get_child(int p_idx) const {
 		ERR_FAIL_INDEX_V(p_idx, data.children.size(), nullptr);

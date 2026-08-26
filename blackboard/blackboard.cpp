@@ -10,6 +10,7 @@
  */
 
 #include "blackboard.h"
+
 #include "../compat/print.h"
 
 #ifdef LIMBOAI_MODULE

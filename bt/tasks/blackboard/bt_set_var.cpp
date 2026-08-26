@@ -49,7 +49,7 @@ BT::Status BTSetVar::_tick(double p_delta) {
 	}
 	get_blackboard()->set_var(variable, result);
 	return SUCCESS;
-};
+}
 
 void BTSetVar::set_variable(const StringName &p_variable) {
 	variable = p_variable;

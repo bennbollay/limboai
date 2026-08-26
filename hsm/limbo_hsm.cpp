@@ -51,20 +51,20 @@ void LimboHSM::_change_active_state(LimboState *p_state) {
 	ERR_FAIL_COND_MSG(!is_active(), "LimboHSM: Unable to change active state when HSM is not active.");
 	ERR_FAIL_COND_MSG(p_state && p_state->get_parent() != this, "LimboHSM: Unable to perform transition to a state that is not a child of this HSM.");
 
-	if (active_state) {
+	if (active_state != nullptr) {
 		active_state->_exit();
 	}
 
 	previous_active = active_state;
 	active_state = p_state;
 
-	if (active_state) {
+	if (active_state != nullptr) {
 		active_state->_enter();
 	}
 
 	emit_signal(LW_NAME(active_state_changed), active_state, previous_active);
 
-	if (active_state) {
+	if (active_state != nullptr) {
 		active_state->_clear_cargo();
 	}
 }
@@ -85,13 +85,15 @@ void LimboHSM::_exit() {
 }
 
 void LimboHSM::_update(double p_delta) {
-	if (active) {
-		ERR_FAIL_NULL(active_state);
-		LimboState *last_active_state = active_state;
-		LimboState::_update(p_delta);
-		if (last_active_state == active_state) {
-			active_state->_update(p_delta);
-		}
+	if (!active) {
+		return;
+	}
+
+	ERR_FAIL_NULL(active_state);
+	LimboState *last_active_state = active_state;
+	LimboState::_update(p_delta);
+	if (last_active_state == active_state) {
+		active_state->_update(p_delta);
 	}
 }
 

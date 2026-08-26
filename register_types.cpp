@@ -95,6 +95,12 @@
 #include "bt/tasks/utility/bt_random_wait.h"
 #include "bt/tasks/utility/bt_wait.h"
 #include "bt/tasks/utility/bt_wait_ticks.h"
+#include "hsm/limbo_hsm.h"
+#include "hsm/limbo_state.h"
+#include "util/limbo_string_names.h"
+#include "util/limbo_task_db.h"
+#include "util/limbo_utility.h"
+
 #include "editor/action_banner.h"
 #include "editor/blackboard_plan_editor.h"
 #include "editor/debugger/behavior_tree_data.h"
@@ -104,11 +110,6 @@
 #include "editor/editor_property_variable_name.h"
 #include "editor/mode_switch_button.h"
 #include "editor/tree_search.h"
-#include "hsm/limbo_hsm.h"
-#include "hsm/limbo_state.h"
-#include "util/limbo_string_names.h"
-#include "util/limbo_task_db.h"
-#include "util/limbo_utility.h"
 
 #ifdef TOOLS_ENABLED
 #include "editor/debugger/behavior_tree_view.h"
@@ -123,6 +124,7 @@
 
 #ifdef LIMBOAI_GDEXTENSION
 #include "editor/editor_property_property_path.h"
+
 #include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/core/memory.hpp>

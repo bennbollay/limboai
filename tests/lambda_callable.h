@@ -1,10 +1,10 @@
 #pragma once
 
-#include <functional>
-
 #include "core/templates/hashfuncs.h"
 #include "core/variant/callable.h"
 #include "core/variant/variant.h"
+
+#include <functional>
 
 // Used in LimboAI testing to inline signal handlers (for now).
 // It only supports zero arguments!

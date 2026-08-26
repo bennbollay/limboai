@@ -14,12 +14,12 @@
 
 #include "limbo_test.h"
 
+#include "core/math/math_funcs.h"
+
 #include "modules/limboai/bt/tasks/bt_task.h"
 #include "modules/limboai/bt/tasks/utility/bt_random_wait.h"
 #include "modules/limboai/bt/tasks/utility/bt_wait.h"
 #include "modules/limboai/bt/tasks/utility/bt_wait_ticks.h"
-
-#include "core/math/math_funcs.h"
 
 namespace TestWaitActions {
 

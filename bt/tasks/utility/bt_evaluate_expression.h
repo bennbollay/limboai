@@ -12,10 +12,9 @@
 #ifndef BT_EVALUATE_EXPRESSION_H
 #define BT_EVALUATE_EXPRESSION_H
 
-#include "../bt_action.h"
-
 #include "../../../blackboard/bb_param/bb_node.h"
 #include "../../../blackboard/bb_param/bb_variant.h"
+#include "../bt_action.h"
 
 #ifdef LIMBOAI_MODULE
 #include "core/math/expression.h"

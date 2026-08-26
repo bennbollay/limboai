@@ -17,6 +17,8 @@
 #include "core/object/ref_counted.h"
 #include "core/string/node_path.h"
 #include "core/variant/variant.h"
+#include "tests/test_macros.h"
+
 #include "modules/limboai/blackboard/bb_param/bb_bool.h"
 #include "modules/limboai/blackboard/bb_param/bb_float.h"
 #include "modules/limboai/blackboard/bb_param/bb_int.h"
@@ -27,7 +29,6 @@
 #include "modules/limboai/blackboard/bb_param/bb_vector2.h"
 #include "modules/limboai/blackboard/blackboard.h"
 #include "modules/limboai/bt/tasks/bt_task.h"
-#include "tests/test_macros.h"
 
 namespace TestBBParam {
 

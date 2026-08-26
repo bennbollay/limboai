@@ -14,10 +14,11 @@
 #include "lambda_callable.h"
 #include "limbo_test.h"
 
-#include "modules/limboai/bt/behavior_tree.h"
-#include "modules/limboai/bt/bt_player.h"
 #include "scene/main/scene_tree.h"
 #include "scene/main/window.h"
+
+#include "modules/limboai/bt/behavior_tree.h"
+#include "modules/limboai/bt/bt_player.h"
 
 namespace TestBTPlayer {
 

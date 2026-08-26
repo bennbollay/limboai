@@ -84,6 +84,9 @@ LimboState *LimboState::named(const String &p_name) {
 }
 
 void LimboState::_enter() {
+	if (active) {
+		return;
+	}
 	active = true;
 	GDVIRTUAL_CALL(_enter);
 	emit_signal(LW_NAME(entered));

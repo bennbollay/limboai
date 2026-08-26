@@ -14,17 +14,16 @@
 
 #include "limbo_test.h"
 
-#include "modules/limboai/hsm/limbo_hsm.h"
-#include "modules/limboai/hsm/limbo_state.h"
-
 #include "core/object/callable_mp.h"
 #include "core/object/object.h"
 #include "core/object/ref_counted.h"
 #include "core/os/memory.h"
 #include "core/variant/variant.h"
 #include "scene/main/scene_tree.h"
-
 #include "tests/signal_watcher.h"
+
+#include "modules/limboai/hsm/limbo_hsm.h"
+#include "modules/limboai/hsm/limbo_state.h"
 
 namespace TestHSM {
 
@@ -494,6 +493,36 @@ TEST_CASE("[Modules][LimboAI] HSM") {
 		CHECK(nested_updates->num_callbacks == before_transition_frame_nested + 1); // Nested HSM continues to update
 		CHECK(delta_updates->num_callbacks == before_transition_frame_delta + 1); // New active state updates
 		CHECK(gamma_updates->num_callbacks == before_transition_frame_gamma); // Old inactive state no longer updates
+	}
+	SUBCASE("Test active and previous active states") {
+		const Object *nullobj = static_cast<Object *>(nullptr);
+
+		SIGNAL_WATCH(hsm, "active_state_changed");
+
+		CHECK(hsm->get_previous_active_state() == nullptr);
+		CHECK(hsm->get_active_state() == state_alpha);
+
+		hsm->dispatch("event_one");
+		CHECK(hsm->get_previous_active_state() == state_alpha);
+		CHECK(hsm->get_active_state() == state_beta);
+		SIGNAL_CHECK("active_state_changed", Array({ { state_beta, state_alpha } }));
+
+		hsm->dispatch("goto_nested");
+		CHECK(hsm->get_previous_active_state() == state_beta);
+		CHECK(hsm->get_active_state() == nested_hsm);
+		SIGNAL_CHECK("active_state_changed", Array({ { nested_hsm, state_beta } }));
+
+		hsm->set_active(false);
+		CHECK(hsm->get_previous_active_state() == nested_hsm);
+		CHECK(hsm->get_active_state() == nullptr);
+		SIGNAL_CHECK("active_state_changed", Array({ { nullobj, nested_hsm } }));
+
+		hsm->set_active(true);
+		CHECK(hsm->get_previous_active_state() == nullptr);
+		CHECK(hsm->get_active_state() == state_alpha);
+		SIGNAL_CHECK("active_state_changed", Array({ { state_alpha, nullobj } }));
+
+		SIGNAL_UNWATCH(hsm, "active_state_changed");
 	}
 
 	SUBCASE("Test active_state_changed emitted on startup") {

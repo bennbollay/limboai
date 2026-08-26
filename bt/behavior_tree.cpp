@@ -10,9 +10,9 @@
  */
 
 #include "behavior_tree.h"
-#include "tasks/utility/bt_fail.h"
 
 #include "../util/limbo_string_names.h"
+#include "tasks/utility/bt_fail.h"
 
 #ifdef LIMBOAI_MODULE
 #include "core/config/engine.h"
