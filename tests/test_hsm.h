@@ -507,6 +507,7 @@ TEST_CASE("[Modules][LimboAI] HSM") {
 		local_hsm->set_active(true);
 
 		REQUIRE(local_hsm->get_active_state() == local_state);
+		REQUIRE(local_hsm->get_previous_active_state() == nullptr);
 		SIGNAL_CHECK("active_state_changed", Array({ { local_state, nullobj } }));
 	}
 
