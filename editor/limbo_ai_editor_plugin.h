@@ -200,6 +200,7 @@ private:
 	void _new_bt();
 	void _save_bt(const Ref<BehaviorTree> &p_bt, const String &p_path);
 	void _save_current_bt(const String &p_path);
+	Ref<BehaviorTree> _load_bt_resource(const String &p_path);
 	void _load_bt(const String &p_path);
 	void _update_task_tree(const Ref<BehaviorTree> &p_bt, const Ref<BTTask> &p_specific_task = nullptr);
 	void _disable_editing();

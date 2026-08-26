@@ -262,17 +262,19 @@ void LimboAIEditor::_save_current_bt(const String &p_path) {
 	_save_bt(task_tree->get_bt(), p_path);
 }
 
-void LimboAIEditor::_load_bt(const String &p_path) {
-	ERR_FAIL_COND_MSG(p_path.is_empty(), "Empty p_path");
+Ref<BehaviorTree> LimboAIEditor::_load_bt_resource(const String &p_path) {
+	ERR_FAIL_COND_V_MSG(p_path.is_empty(), Ref<BehaviorTree>(), "Empty p_path");
 	Ref<BehaviorTree> bt = RESOURCE_LOAD(p_path, "BehaviorTree");
-	ERR_FAIL_COND(!bt.is_valid());
+	ERR_FAIL_COND_V(bt.is_null(), Ref<BehaviorTree>());
 	if (bt->get_blackboard_plan().is_null()) {
 		bt->set_blackboard_plan(memnew(BlackboardPlan));
 	}
-	// if (history.find(bt) != -1) {
-	// 	history.erase(bt);
-	// 	history.push_back(bt);
-	// }
+	return bt;
+}
+
+void LimboAIEditor::_load_bt(const String &p_path) {
+	Ref<BehaviorTree> bt = _load_bt_resource(p_path);
+	ERR_FAIL_COND(bt.is_null());
 
 	EditorInterface::get_singleton()->edit_resource(bt);
 }
@@ -362,7 +364,10 @@ void LimboAIEditor::set_window_layout(const Ref<ConfigFile> &p_configuration) {
 	for (int i = 0; i < open_bts.size(); i++) {
 		String path = open_bts[i];
 		if (FILE_EXISTS(path)) {
-			_load_bt(path);
+			Ref<BehaviorTree> bt = _load_bt_resource(path);
+			if (bt.is_valid()) {
+				edit_bt(bt);
+			}
 		}
 	}
 
