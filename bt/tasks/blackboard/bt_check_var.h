@@ -12,10 +12,9 @@
 #ifndef BT_CHECK_VAR_H
 #define BT_CHECK_VAR_H
 
-#include "../bt_condition.h"
-
 #include "../../../blackboard/bb_param/bb_variant.h"
 #include "../../../util/limbo_utility.h"
+#include "../bt_condition.h"
 
 class BTCheckVar : public BTCondition {
 	GDCLASS(BTCheckVar, BTCondition);

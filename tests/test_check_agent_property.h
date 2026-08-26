@@ -14,25 +14,25 @@
 
 #include "limbo_test.h"
 
+#include "core/os/memory.h"
+#include "core/variant/variant.h"
+
 #include "modules/limboai/blackboard/bb_param/bb_variant.h"
 #include "modules/limboai/blackboard/blackboard.h"
 #include "modules/limboai/bt/tasks/bt_task.h"
 #include "modules/limboai/bt/tasks/scene/bt_check_agent_property.h"
 #include "modules/limboai/util/limbo_utility.h"
 
-#include "core/os/memory.h"
-#include "core/variant/variant.h"
-
 namespace TestCheckAgentProperty {
 
 // Check with m_correct, m_incorrect and m_invalid values using m_check_type.
 #define TC_CHECK_AGENT_PROP(m_task, m_check_type, m_correct, m_incorrect, m_invalid) \
-	m_task->set_check_type(m_check_type);                                            \
-	m_task->get_value()->set_saved_value(m_correct);                                 \
-	CHECK(m_task->execute(0.01666) == BTTask::SUCCESS);                              \
-	m_task->get_value()->set_saved_value(m_incorrect);                               \
-	CHECK(m_task->execute(0.01666) == BTTask::FAILURE);                              \
-	m_task->get_value()->set_saved_value(m_invalid);                                 \
+	m_task->set_check_type(m_check_type); \
+	m_task->get_value()->set_saved_value(m_correct); \
+	CHECK(m_task->execute(0.01666) == BTTask::SUCCESS); \
+	m_task->get_value()->set_saved_value(m_incorrect); \
+	CHECK(m_task->execute(0.01666) == BTTask::FAILURE); \
+	m_task->get_value()->set_saved_value(m_invalid); \
 	CHECK(m_task->execute(0.01666) == BTTask::FAILURE);
 
 TEST_CASE("[Modules][LimboAI] BTCheckAgentProperty") {

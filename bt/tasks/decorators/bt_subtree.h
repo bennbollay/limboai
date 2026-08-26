@@ -12,9 +12,8 @@
 #ifndef BT_SUBTREE_H
 #define BT_SUBTREE_H
 
-#include "bt_new_scope.h"
-
 #include "../../../bt/behavior_tree.h"
+#include "bt_new_scope.h"
 
 class BTSubtree : public BTNewScope {
 	GDCLASS(BTSubtree, BTNewScope);

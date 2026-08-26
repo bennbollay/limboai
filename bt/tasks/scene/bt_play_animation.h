@@ -12,9 +12,8 @@
 #ifndef BT_PLAY_ANIMATION_H
 #define BT_PLAY_ANIMATION_H
 
-#include "../bt_action.h"
-
 #include "../../../blackboard/bb_param/bb_node.h"
+#include "../bt_action.h"
 
 #ifdef LIMBOAI_MODULE
 #include "scene/animation/animation_player.h"

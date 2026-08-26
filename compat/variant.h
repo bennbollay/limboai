@@ -20,9 +20,9 @@
 #include <godot_cpp/variant/variant.hpp>
 using namespace godot;
 
-#define VARIANT_EVALUATE(m_op, m_lvalue, m_rvalue, r_ret)            \
-	{                                                                \
-		bool r_valid;                                                \
+#define VARIANT_EVALUATE(m_op, m_lvalue, m_rvalue, r_ret) \
+	{ \
+		bool r_valid; \
 		Variant::evaluate(m_op, m_lvalue, m_rvalue, r_ret, r_valid); \
 	}
 

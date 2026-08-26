@@ -61,19 +61,19 @@ public:
 };
 
 #define CHECK_ENTRIES_TICKS_EXITS(m_task, m_entries, m_ticks, m_exits) \
-	CHECK(m_task->num_entries == m_entries);                           \
-	CHECK(m_task->num_ticks == m_ticks);                               \
+	CHECK(m_task->num_entries == m_entries); \
+	CHECK(m_task->num_ticks == m_ticks); \
 	CHECK(m_task->num_exits == m_exits);
 
 #define CHECK_ENTRIES_TICKS_EXITS_UP_TO(m_task, m_entries, m_ticks, m_exits) \
-	CHECK(m_task->num_entries <= m_entries);                                 \
-	CHECK(m_task->num_ticks <= m_ticks);                                     \
+	CHECK(m_task->num_entries <= m_entries); \
+	CHECK(m_task->num_ticks <= m_ticks); \
 	CHECK(m_task->num_exits <= m_exits);
 
 #define CHECK_STATUS_ENTRIES_TICKS_EXITS(m_task, m_status, m_entries, m_ticks, m_exits) \
-	CHECK(m_task->get_status() == m_status);                                            \
-	CHECK(m_task->num_entries == m_entries);                                            \
-	CHECK(m_task->num_ticks == m_ticks);                                                \
+	CHECK(m_task->get_status() == m_status); \
+	CHECK(m_task->num_entries == m_entries); \
+	CHECK(m_task->num_ticks == m_ticks); \
 	CHECK(m_task->num_exits == m_exits);
 
 #endif // LIMBO_TEST_H

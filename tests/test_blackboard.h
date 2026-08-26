@@ -1,8 +1,9 @@
 #ifndef TEST_BLACKBOARD_H
 #define TEST_BLACKBOARD_H
 
-#include "core/variant/variant.h"
 #include "limbo_test.h"
+
+#include "core/variant/variant.h"
 
 #include "modules/limboai/blackboard/blackboard.h"
 

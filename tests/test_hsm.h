@@ -14,17 +14,16 @@
 
 #include "limbo_test.h"
 
-#include "modules/limboai/hsm/limbo_hsm.h"
-#include "modules/limboai/hsm/limbo_state.h"
-
 #include "core/object/callable_mp.h"
 #include "core/object/object.h"
 #include "core/object/ref_counted.h"
 #include "core/os/memory.h"
 #include "core/variant/variant.h"
 #include "scene/main/scene_tree.h"
-
 #include "tests/signal_watcher.h"
+
+#include "modules/limboai/hsm/limbo_hsm.h"
+#include "modules/limboai/hsm/limbo_state.h"
 
 namespace TestHSM {
 

@@ -14,10 +14,10 @@
 
 #include "limbo_test.h"
 
+#include "core/math/math_funcs.h"
+
 #include "modules/limboai/bt/tasks/bt_task.h"
 #include "modules/limboai/bt/tasks/decorators/bt_probability.h"
-
-#include "core/math/math_funcs.h"
 
 namespace TestProbability {
 

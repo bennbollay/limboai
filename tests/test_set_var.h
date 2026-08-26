@@ -12,15 +12,16 @@
 #ifndef TEST_SET_VAR_H
 #define TEST_SET_VAR_H
 
-#include "core/variant/variant.h"
 #include "limbo_test.h"
+
+#include "core/variant/variant.h"
+#include "tests/test_macros.h"
 
 #include "modules/limboai/blackboard/bb_param/bb_param.h"
 #include "modules/limboai/blackboard/bb_param/bb_variant.h"
 #include "modules/limboai/blackboard/blackboard.h"
 #include "modules/limboai/bt/tasks/blackboard/bt_set_var.h"
 #include "modules/limboai/bt/tasks/bt_task.h"
-#include "tests/test_macros.h"
 
 namespace TestSetVar {
 

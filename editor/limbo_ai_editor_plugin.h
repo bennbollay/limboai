@@ -259,7 +259,7 @@ protected:
 	static void _bind_methods();
 
 public:
-	void set_plugin(EditorPlugin *p_plugin) { plugin = p_plugin; };
+	void set_plugin(EditorPlugin *p_plugin) { plugin = p_plugin; }
 	void edit_bt(const Ref<BehaviorTree> &p_behavior_tree, bool p_force_refresh = false);
 	Ref<BlackboardPlan> get_edited_blackboard_plan();
 	void set_window_layout(const Ref<ConfigFile> &p_configuration);
