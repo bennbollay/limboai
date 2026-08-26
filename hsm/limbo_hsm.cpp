@@ -31,32 +31,41 @@ void LimboHSM::set_active(bool p_active) {
 		return;
 	}
 
-	active = p_active;
-	is_initiating_update = p_active;
-
-	if (active) {
+	if (p_active) {
 		_enter();
 	} else {
 		_exit();
 	}
+
+	is_initiating_update = p_active;
 }
 
 void LimboHSM::change_active_state(LimboState *p_state) {
+	// Userland checks.
 	ERR_FAIL_NULL(p_state);
-	ERR_FAIL_COND_MSG(!is_active(), "LimboHSM: Unable to change active state when HSM is not active.");
 	ERR_FAIL_COND_MSG(p_state->get_parent() != this, "LimboHSM: Unable to perform transition to a state that is not a child of this HSM.");
+	ERR_FAIL_COND_MSG(!is_active(), "LimboHSM: Unable to change active state when HSM is not active.");
 
-	if (active_state) {
+	_change_active_state(p_state);
+}
+
+void LimboHSM::_change_active_state(LimboState *p_state) {
+	if (active_state != nullptr) {
 		active_state->_exit();
-		previous_active = active_state;
 	}
 
+	previous_active = active_state;
 	active_state = p_state;
-	active_state->_enter();
+
+	if (active_state != nullptr) {
+		active_state->_enter();
+	}
 
 	emit_signal(LW_NAME(active_state_changed), active_state, previous_active);
 
-	active_state->_clear_cargo();
+	if (active_state != nullptr) {
+		active_state->_clear_cargo();
+	}
 }
 
 void LimboHSM::_enter() {
@@ -65,24 +74,24 @@ void LimboHSM::_enter() {
 	ERR_FAIL_COND_MSG(initial_state == nullptr, "LimboHSM: Initial state is not set.");
 
 	LimboState::_enter();
-	change_active_state(initial_state);
+	_change_active_state(initial_state);
 }
 
 void LimboHSM::_exit() {
-	ERR_FAIL_COND(active_state == nullptr);
-	active_state->_exit();
-	active_state = nullptr;
+	_change_active_state(nullptr);
 	LimboState::_exit();
 }
 
 void LimboHSM::_update(double p_delta) {
-	if (active) {
-		ERR_FAIL_NULL(active_state);
-		LimboState *last_active_state = active_state;
-		LimboState::_update(p_delta);
-		if (last_active_state == active_state) {
-			active_state->_update(p_delta);
-		}
+	if (!active) {
+		return;
+	}
+
+	ERR_FAIL_NULL(active_state);
+	LimboState *last_active_state = active_state;
+	LimboState::_update(p_delta);
+	if (last_active_state == active_state) {
+		active_state->_update(p_delta);
 	}
 }
 
@@ -91,7 +100,7 @@ void LimboHSM::update(double p_delta) {
 	_update(p_delta);
 	updating = false;
 	if (next_active) {
-		change_active_state(next_active);
+		_change_active_state(next_active);
 		next_active = nullptr;
 	}
 }
@@ -205,7 +214,7 @@ bool LimboHSM::_dispatch(const StringName &p_event, const Variant &p_cargo) {
 			if (permitted) {
 				if (!updating) {
 					to_state->_set_cargo(p_cargo);
-					change_active_state(to_state);
+					_change_active_state(to_state);
 				} else if (!next_active) {
 					// Only set next_active if we are not already in the process of changing states.
 					to_state->_set_cargo(p_cargo);
