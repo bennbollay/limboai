@@ -72,7 +72,6 @@ protected:
 
 	void _notification(int p_what);
 	void _validate_property(PropertyInfo &p_property) const;
-	void _change_active_state(LimboState *p_state);
 
 	virtual void _initialize(Node *p_agent, const Ref<Blackboard> &p_blackboard) override;
 	virtual bool _dispatch(const StringName &p_event, const Variant &p_cargo = Variant()) override;
